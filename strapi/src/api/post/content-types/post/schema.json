@@ -22,7 +22,7 @@
       "type": "uid"
     },
     "userId": {
-      "type": "uid"
+      "type": "string"
     }
   }
 }
