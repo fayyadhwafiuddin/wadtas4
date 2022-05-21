@@ -20,23 +20,23 @@ import TheWelcome from "./components/TheWelcome.vue";
       "
     >
       <tr class="text-xs text-gray-700">
-        <th class="font-medium p-6">Name</th>
-        <th class="font-medium p-6">Title</th>
-        <th class="font-medium p-6">User ID</th>
-        <th class="font-medium p-6">ID</th>
+        <th class="font-medium p-4">Name</th>
+        <th class="font-medium p-4">Title</th>
+        <th class="font-medium p-4">User ID</th>
+        <th class="font-medium p-4 w-8">ID</th>
       </tr>
 
-      <tr v-for="post in posts" :key="post.id" class="bg-zinc-100 p-6">
-        <td class="bg-white-400 p-6">
+      <tr v-for="post in posts" :key="post.id" class="bg-zinc-100 pb-4 shadow-2xl">
+        <td class="bg-white-400 p-4">
           {{ post.username }}
         </td>
-        <td class="text-blue-400 underline p-6">
+        <td class="text-blue-400 underline p-4">
           {{ post.title }}
         </td>
-        <td class="p-6">
+        <td class="p-4">
           {{ post.userId }}
         </td>
-        <td class="p-6 w-24">
+        <td class="">
           {{ post.pid }}
         </td>
       </tr>
@@ -58,15 +58,33 @@ import TheWelcome from "./components/TheWelcome.vue";
           m-auto
           mt-32
           text-sm text-left text-black
-          bg-gray-300
+          bg-blue-300
         "
       >
         <tr>
           <th class="text-lg p-6 font-bold">Post</th>
+          <td>
+            <input
+              class="border border-black rounded-lg w-24"
+              type="submit"
+              value="Submit"
+            >
+          </td>
         </tr>
-
+        
         <tr>
-          <th class="font-medium p-6">Title</th>
+          <td></td>
+        <td class="text-left p-2">
+          <ul>
+            <li v-for="error in errors" :key="error" class="text-red-500">
+              {{ error }}
+            </li>
+          </ul>
+        </td>
+
+        </tr>
+        <tr>
+          <th class="font-medium p-6">Title:</th>
           <td>
             <input
               class="border border-black"
@@ -78,7 +96,7 @@ import TheWelcome from "./components/TheWelcome.vue";
           </td>
         </tr>
         <tr>
-          <th class="font-medium p-6">content</th>
+          <th class="font-medium p-6">Content:</th>
           <td>
             <textarea
               class="border border-black"
@@ -89,25 +107,8 @@ import TheWelcome from "./components/TheWelcome.vue";
               rows="10"
             ></textarea>
           </td>
-        </tr>
-        <td></td>
-        <td class="text-left p-8">
-          <ul>
-            <li v-for="error in errors" :key="error" class="text-red-500">
-              {{ error }}
-            </li>
-          </ul>
-        </td>
-        <tr>
           <td></td>
-          <td>
-            <input
-              class="border border-black rounded-lg w-24"
-              type="submit"
-              value="Submit"
-            />
-          </td>
-        </tr>
+          </tr>
         <tr class="h-8"></tr>
       </table>
     </form>
@@ -129,7 +130,7 @@ export default {
         data: {},
       },
       headers: {
-        Authorization:
+        "Authorization":
           "Bearer 96ccafb2c6baf570886e1d112cfeb3e5c5fc7a712c89b79cc91bfe14167b2bc179fe33d896b7861f389b857628e608a96bd543605b876f05d8d57b4269ebc105120d2a6c2c9b3900b77c1de204ee6cf7758fa118df0a04e1ef890a1278fbb7df7bad480194f2f7e405f5bc6469bd263f8fef90573d4d0f05f86670a78c7f626c",
       },
     };
@@ -137,6 +138,7 @@ export default {
   mounted() {
     fetch("http://localhost:8082/api/blogusers", {
       method: "GET",
+      headers: this.headers,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -150,6 +152,7 @@ export default {
       });
     fetch("http://localhost:8082/api/posts", {
       method: "GET",
+      headers: this.headers,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -211,7 +214,7 @@ export default {
           const response = await fetch("http://localhost:8082/api/posts", {
             method: "POST",
             headers: {
-              Authorization:
+              'Authorization':
                 "Bearer 765946dbf095b85f788eeb09c42f8eac310db3c5a8df28866e113d658623666787f631adf8b5a1a6a8b36a94692522b51948fe090c4902a5ce3bf6b27ae06ec757fa3d96170113a3b5eeb685a94d2d12610c35dcbfa6870f62b4fafe71397cbd0ef39472bcf03576f27b34b749b2092c599396bad0d7b6dd9640882a4bb575f1",
               "Content-Type": "application/json",
             },
@@ -224,7 +227,7 @@ export default {
           this.error = error;
           console.log(error);
         }
-        window.location.reload();
+         window.location.reload();
       }
     },
   },
